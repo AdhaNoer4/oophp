@@ -1,9 +1,16 @@
 <?php
+
+// interface
+// tidak boleh ada property dan implementasi method
+interface InfoProduk
+{
+    public function getInfoProduk();
+}
 // Parent 
 abstract class Produk // Class abstrak minimal memiliki 1 method abstract
 {
     //property(variabel pada class)
-    private $judul, // public adalah visibility
+    protected   $judul, // public adalah visibility
         $penulis,
         $penerbit,
         $diskon = 0, // protected hanya bisa diakses pada kelas yang sama dan child / turunannya
@@ -81,19 +88,15 @@ abstract class Produk // Class abstrak minimal memiliki 1 method abstract
         return "$this->penulis, $this->penerbit";
     }
 
-    abstract public function getInfoProduk(); // method abstract hanya interface nya saja, implementasinya ada di turunannya
+    // method abstract
+    abstract public function getInfo(); // method abstract hanya interface nya saja, implementasinya ada di turunannya
 
-    public function getInfo()
-    {
 
-        $str = " {$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
-        return $str;
-    }
 }
 
 // Inheritance(Pewarisan)
 // child dari produk
-class Komik extends Produk
+class Komik extends Produk implements InfoProduk
 {
     public $jmlHalaman;
     public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $jmlHalaman = 0)
@@ -101,6 +104,12 @@ class Komik extends Produk
         parent::__construct($judul, $penulis, $penerbit, $harga);
 
         $this->jmlHalaman = $jmlHalaman;
+    }
+    public function getInfo()
+    {
+
+        $str = " {$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
+        return $str;
     }
     public function getInfoProduk()
     {                        // ini overriding
@@ -110,7 +119,7 @@ class Komik extends Produk
 }
 
 // child dari Produk
-class Game extends Produk
+class Game extends Produk implements InfoProduk
 {
     public $waktuMain;
     public function __construct($judul = "judul", $penulis = "penulis", $penerbit = "penerbit", $harga = 0, $waktuMain = 0)
@@ -118,6 +127,13 @@ class Game extends Produk
         parent::__construct($judul, $penulis, $penerbit, $harga);
 
         $this->waktuMain = $waktuMain;
+    }
+
+    public function getInfo()
+    {
+
+        $str = " {$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
+        return $str;
     }
 
 
